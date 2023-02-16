@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<head>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #ff9966;
+		}
+
+		.center {
+			text-align: center;
+		}
+
+		#victim {
+			display: block;
+			position: relative;
+			width: 95%;
+			height: 80%;
+			z-index: 2;
+			margin: 0 auto;
+		}
+
+		#victim_align {
+			position: absolute; 
+			text-align: center; 
+			width: 100%; 
+			height: 100%;
+		}
+
+		#decoy_base {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			z-index: 1;
+		}
+
+		#demo_content {
+			display:flex; 
+			position: absolute; 
+			background-color: #ff0000;
+			justify-content: center;
+			align-items: center;
+			margin: auto;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 10%;
+			text-align: center;
+			width: 50%; 
+			height: 8em; 
+			z-index: 3;
+			opacity: 0.90;
+			font-size: 32pt;
+		}
+	</style>
+</head>
+<body>
+	<div id="decoy_base" class="center" style="display: block;">
+	<h1 id="title">Clickjacking Demo by SySS<h1>
+	</div>
+	<div id="victim_align">
+		<div id="demo_content" class="center">
+			<p id="msg"></p>
+		</div>
+		<iframe id="victim"></iframe>
+	</div>
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			const query = window.location.search;
+			const urlParams = new URLSearchParams(query);
+			const url = urlParams.get("url");
+			const lang = urlParams.get("lang");
+
+			const iframe = document.getElementById("victim");
+			iframe.src = url;
+
+			titleElem = document.getElementById("title");
+			msgElem = document.getElementById("msg");
+			if (lang === "de") { 
+				titleElem.innerText = "Clickjacking Demo von SySS";	
+				msgElem.innerText = "Diese Webseite kann in andere eingebettet werden!";
+			} else {
+				titleElem.innerText = "Clickjacking Demo by SySS";
+				msgElem.innerText = "This website can be embedded!";
+			}
+			
+		});
+	</script>
+</body>
